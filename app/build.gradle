@@ -56,6 +56,16 @@ android {
                 signingConfig signingConfigs.debug
             }
             ext.enableCrashlytics = false
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为XXXX_v1.0_2016-01-15_wandoujia.apk
+                        def fileName = "MatLog.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
         debug {
             applicationIdSuffix '.debug'
