@@ -55,6 +55,7 @@ android {
             } else {
                 signingConfig signingConfigs.debug
             }
+            ext.enableCrashlytics = false
         }
         debug {
             applicationIdSuffix '.debug'
