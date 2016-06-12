@@ -139,6 +139,86 @@ public class PreferenceHelper {
         editor.commit();
     }
 
+    public static void setFtpIpPreference(Context context, String value) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor editor = sharedPrefs.edit();
+
+        editor.putString(context.getText(R.string.pref_ftp_ip).toString(), value);
+
+        editor.commit();
+    }
+
+    public static String getFtpIpPreference(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String defaultValue = context.getText(R.string.pref_ftp_ip_default).toString();
+
+        String value = sharedPrefs.getString(context.getText(R.string.pref_ftp_ip).toString(), defaultValue);
+
+        return value;
+    }
+
+    public static void setFtpPortPreference(Context context, int value) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor editor = sharedPrefs.edit();
+
+        editor.putString(context.getText(R.string.pref_ftp_port).toString(), Integer.toString(value));
+
+        editor.commit();
+    }
+
+    public static int getFtpPortPreference(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String defaultValue = context.getText(R.string.pref_ftp_port_default).toString();
+
+        String intAsString = sharedPrefs.getString(context.getText(R.string.pref_ftp_port).toString(), defaultValue);
+
+        try {
+            return Integer.parseInt(intAsString);
+        } catch (NumberFormatException e) {
+            return Integer.parseInt(defaultValue);
+        }
+    }
+
+    public static void setFtpUsernamePreference(Context context, String value) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor editor = sharedPrefs.edit();
+
+        editor.putString(context.getText(R.string.pref_ftp_username).toString(), value);
+
+        editor.commit();
+    }
+
+    public static String getFtpUsernamePreference(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String defaultValue = context.getText(R.string.pref_ftp_username_default).toString();
+
+        String value = sharedPrefs.getString(context.getText(R.string.pref_ftp_username).toString(), defaultValue);
+
+        return value;
+    }
+
+    public static void setFtpPasswordPreference(Context context, String value) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Editor editor = sharedPrefs.edit();
+
+        editor.putString(context.getText(R.string.pref_ftp_password).toString(), value);
+
+        editor.commit();
+    }
+
+    public static String getFtpPasswordPreference(Context context) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String defaultValue = context.getText(R.string.pref_ftp_password_default).toString();
+
+        String value = sharedPrefs.getString(context.getText(R.string.pref_ftp_password).toString(), defaultValue);
+
+        return value;
+    }
+
     public static char getDefaultLogLevelPreference(Context context) {
 
         if (defaultLogLevel == null) {

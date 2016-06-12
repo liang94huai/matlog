@@ -88,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
         private static final int MAX_DISPLAY_LIMIT = 100000;
         private static final int MIN_DISPLAY_LIMIT = 1000;
 
-        private EditTextPreference logLinePeriodPreference, displayLimitPreference;
+        private EditTextPreference logLinePeriodPreference, displayLimitPreference, ftpIpPreference, ftpPortPreference, ftpUsernamePreference, ftpPasswordPreference;
         private ListPreference textSizePreference, defaultLevelPreference;
         private MultipleChoicePreference bufferPreference;
         private Preference mThemePreference;
@@ -127,6 +127,30 @@ public class SettingsActivity extends AppCompatActivity {
                     logLinePrefValue, getString(R.string.pref_log_line_period_default)));
 
             logLinePeriodPreference.setOnPreferenceChangeListener(this);
+
+            ftpIpPreference = (EditTextPreference) findPreference(getString(R.string.pref_ftp_ip));
+            String ftpIpPrefValue = PreferenceHelper.getFtpIpPreference(getActivity());
+            ftpIpPreference.setSummary(String.format(getString(R.string.pref_ftp_ip_summary),
+                    ftpIpPrefValue, getString(R.string.pref_ftp_ip_default)));
+            ftpIpPreference.setOnPreferenceChangeListener(this);
+
+            ftpPortPreference = (EditTextPreference) findPreference(getString(R.string.pref_ftp_port));
+            int ftpPortPrefValue = PreferenceHelper.getFtpPortPreference(getActivity());
+            ftpPortPreference.setSummary(String.format(getString(R.string.pref_ftp_port_summary),
+                    ftpPortPrefValue, getString(R.string.pref_ftp_port_default)));
+            ftpPortPreference.setOnPreferenceChangeListener(this);
+
+            ftpUsernamePreference = (EditTextPreference) findPreference(getString(R.string.pref_ftp_username));
+            String ftpUsernamePrefValue = PreferenceHelper.getFtpUsernamePreference(getActivity());
+            ftpUsernamePreference.setSummary(String.format(getString(R.string.pref_ftp_username_summary),
+                    ftpUsernamePrefValue, getString(R.string.pref_ftp_username_default)));
+            ftpUsernamePreference.setOnPreferenceChangeListener(this);
+
+            ftpPasswordPreference = (EditTextPreference) findPreference(getString(R.string.pref_ftp_password));
+            String ftpPasswordPrefValue = PreferenceHelper.getFtpPasswordPreference(getActivity());
+            ftpPasswordPreference.setSummary(String.format(getString(R.string.pref_ftp_password_summary),
+                    ftpPasswordPrefValue, getString(R.string.pref_ftp_password_default)));
+            ftpPasswordPreference.setOnPreferenceChangeListener(this);
 
             textSizePreference = (ListPreference) findPreference(getString(R.string.pref_text_size));
             textSizePreference.setSummary(textSizePreference.getEntry());
@@ -231,7 +255,58 @@ public class SettingsActivity extends AppCompatActivity {
 
                 Toast.makeText(getActivity(), R.string.pref_log_line_period_error, Toast.LENGTH_LONG).show();
                 return false;
+            } else if (preference.getKey().equals(getString(R.string.pref_ftp_ip))) {
 
+                String input = ((String) newValue).trim();
+
+                if (TextUtils.isEmpty(input)) {
+                    Toast.makeText(getActivity(), R.string.pref_ftp_setting_error, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                PreferenceHelper.setFtpIpPreference(getActivity(), input);
+                ftpIpPreference.setSummary(String.format(getString(R.string.pref_ftp_ip_summary),
+                        input, getString(R.string.pref_ftp_ip_default)));
+                return true;
+            } else if (preference.getKey().equals(getString(R.string.pref_ftp_port))) {
+
+                String input = ((String) newValue).trim();
+
+                if (TextUtils.isEmpty(newValue.toString())) {
+                    Toast.makeText(getActivity(), R.string.pref_ftp_setting_error, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                PreferenceHelper.setFtpPortPreference(getActivity(), Integer.parseInt(input));
+                ftpPortPreference.setSummary(String.format(getString(R.string.pref_ftp_port_summary),
+                        Integer.parseInt(input), getString(R.string.pref_ftp_port_default)));
+                return true;
+            } else if (preference.getKey().equals(getString(R.string.pref_ftp_username))) {
+
+                String input = ((String) newValue).trim();
+
+                if (TextUtils.isEmpty(input)) {
+                    Toast.makeText(getActivity(), R.string.pref_ftp_setting_error, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                PreferenceHelper.setFtpUsernamePreference(getActivity(), input);
+                ftpUsernamePreference.setSummary(String.format(getString(R.string.pref_ftp_username_summary),
+                        input, getString(R.string.pref_ftp_username_default)));
+                return true;
+            } else if (preference.getKey().equals(getString(R.string.pref_ftp_password))) {
+
+                String input = ((String) newValue).trim();
+
+                if (TextUtils.isEmpty(input)) {
+                    Toast.makeText(getActivity(), R.string.pref_ftp_setting_error, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                PreferenceHelper.setFtpPasswordPreference(getActivity(), input);
+                ftpPasswordPreference.setSummary(String.format(getString(R.string.pref_ftp_password_summary),
+                        input, getString(R.string.pref_ftp_password_default)));
+                return true;
             } else if (preference.getKey().equals(getString(R.string.pref_theme))) {
                 // update summary
                 /*int index = ArrayUtil.indexOf(mThemePreference.getEntryValues(), newValue.toString());

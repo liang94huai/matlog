@@ -34,6 +34,14 @@
     <string name="pref_include_device_info">device_info</string>
     <string name="pref_log_line_period">log_line_period</string>
     <string name="pref_log_line_period_default">200</string>
+    <string name="pref_ftp_ip">ftp_ip</string>
+    <string name="pref_ftp_ip_default">192.168.70.66</string>
+    <string name="pref_ftp_port">ftp_port</string>
+    <string name="pref_ftp_port_default">21</string>
+    <string name="pref_ftp_username">ftp_username</string>
+    <string name="pref_ftp_username_default">test</string>
+    <string name="pref_ftp_password">ftp_password</string>
+    <string name="pref_ftp_password_default">123456</string>
     <string name="pref_ran_jellybean_su_update">jellybean_su</string>
     <string name="pref_show_timestamp">show_timestamp</string>
     <string name="pref_text_size">text_size</string>
@@ -72,6 +80,8 @@
     <string name="copied_to_clipboard">Copied to clipboard.</string>
 
     <string name="copy_to_clipboard">Copy to clipboard</string>
+
+    <string name="send_to_ftp_success">Send to ftp success</string>
 
     <string name="default_in_parens">(Default)</string>
     <string name="delete">Delete</string>
@@ -138,6 +148,15 @@
     <string name="pref_log_line_period_error">Please enter an integer between 1 and 1000.</string>
     <string name="pref_log_line_period_summary" formatted="false">When recording, write to SD card every %d line(s) (default: %s).</string>
     <string name="pref_log_line_period_title">Write Period</string>
+    <string name="pref_ftp_ip_title">FTP IP</string>
+    <string name="pref_ftp_ip_summary" formatted="false">%s(Default: %s)</string>
+    <string name="pref_ftp_port_title">FTP Port</string>
+    <string name="pref_ftp_port_summary" formatted="false">%d(Default: %s)</string>
+    <string name="pref_ftp_username_title">FTP Username</string>
+    <string name="pref_ftp_username_summary" formatted="false">%s(Default: %s)</string>
+    <string name="pref_ftp_password_title">FTP Password</string>
+    <string name="pref_ftp_password_summary" formatted="false">%s(Default: %s)</string>
+    <string name="pref_ftp_setting_error">FTP setting error.</string>
     <string name="pref_show_timestamp_summary">Show process id and timestamp when expanded.</string>
     <string name="pref_show_timestamp_title">Show Pid &amp; Timestamp</string>
     <string name="pref_text_size_title">Text Size</string>
@@ -165,7 +184,7 @@
 
     <string name="send_as_attachment">Send as Attachment</string>
     <string name="send_as_text">Send as Text</string>
-    <string name="send_log">Send</string>
+    <string name="send_log">Send to FTP</string>
     <string name="send_log_title">Send Log</string>
 
     <string name="settings">Settings</string>

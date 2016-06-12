@@ -87,10 +87,14 @@ import com.pluscubed.logcat.util.LogLineAdapterUtil;
 import com.pluscubed.logcat.util.StringUtil;
 import com.pluscubed.logcat.util.UtilLogger;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,6 +102,12 @@ import java.util.Locale;
 import java.util.Set;
 
 import io.fabric.sdk.android.Fabric;
+import it.sauronsoftware.ftp4j.FTPAbortedException;
+import it.sauronsoftware.ftp4j.FTPClient;
+import it.sauronsoftware.ftp4j.FTPDataTransferException;
+import it.sauronsoftware.ftp4j.FTPDataTransferListener;
+import it.sauronsoftware.ftp4j.FTPException;
+import it.sauronsoftware.ftp4j.FTPIllegalReplyException;
 
 public class LogcatActivity extends AppCompatActivity implements FilterListener {
 
@@ -622,7 +632,7 @@ public class LogcatActivity extends AppCompatActivity implements FilterListener 
                 showRecordLogDialog();
                 return true;
             case R.id.menu_send_log:
-                showSendLogDialog();
+                sendToFtp();
                 return true;
             case android.R.id.home:
                 onBackPressed();
@@ -1255,6 +1265,98 @@ public class LogcatActivity extends AppCompatActivity implements FilterListener 
         };
 
         DialogHelper.showFilenameSuggestingDialog(this, null, onClickListener, R.string.save_log);
+    }
+
+    private void copyLog() {
+        CharSequence logLines = getCurrentLogAsCharSequence();
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES. HONEYCOMB) {
+            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setText(logLines);
+        } else {
+            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+            android.content.ClipData clip = ClipData.newPlainText(null, logLines);
+            clipboard.setPrimaryClip(clip);
+        }
+        Toast.makeText(this, R.string.copied_to_clipboard, Toast.LENGTH_SHORT).show();
+    }
+
+    private void sendToFtp() {
+
+        final Handler ui = new Handler(Looper.getMainLooper());
+        new Thread(new Runnable() {
+            private MaterialDialog mDialog;
+
+            @Override
+            public void run() {
+                FTPClient client = new FTPClient();
+                try {
+                    client.connect(PreferenceHelper.getFtpIpPreference(getApplicationContext()), PreferenceHelper.getFtpPortPreference(getApplicationContext()));
+                    client.login(PreferenceHelper.getFtpUsernamePreference(getApplicationContext()), PreferenceHelper.getFtpPasswordPreference(getApplicationContext()));
+                    client.changeDirectory("/AndroidLog");
+
+                    SendLogDetails sendLogDetails = getSendLogDetails(true, false);
+                    try {
+                        String dateStr = new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date());
+                        String fileName = "log-" + dateStr + ".txt";
+                        client.upload(fileName, new ByteArrayInputStream(sendLogDetails.getBody().getBytes("UTF-8")), 0, 0, new FTPDataTransferListener() {
+                            @Override
+                            public void started() {
+                                ui.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                            AlertDialogWrapper.Builder progressDialog = new AlertDialogWrapper.Builder(LogcatActivity.this);
+                                            progressDialog.setTitle(R.string.dialog_please_wait);
+                                            progressDialog.setMessage(getString(R.string.dialog_compiling_log));
+                                            mDialog = (MaterialDialog) progressDialog.show();
+                                            mDialog.setCanceledOnTouchOutside(false);
+                                            mDialog.setCancelable(false);
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void transferred(int i) {
+
+                            }
+
+                            @Override
+                            public void completed() {
+                                ui.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (mDialog != null && mDialog.isShowing()) {
+                                            mDialog.dismiss();
+                                        }
+                                        Toast.makeText(LogcatActivity.this, R.string.send_to_ftp_success, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void aborted() {
+
+                            }
+
+                            @Override
+                            public void failed() {
+
+                            }
+                        });
+                    } catch (FTPDataTransferException e) {
+                        e.printStackTrace();
+                    } catch (FTPAbortedException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (FTPIllegalReplyException e) {
+                    e.printStackTrace();
+                } catch (FTPException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private void savePartialLog(final String filename, LogLine first, LogLine last) {

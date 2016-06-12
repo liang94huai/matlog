@@ -60,6 +60,34 @@
 
     <PreferenceCategory android:title="@string/pref_cat_advanced">
         <com.pluscubed.logcat.widget.NonnegativeIntegerEditTextPreference
+            android:defaultValue="@string/pref_ftp_ip_default"
+            android:key="@string/pref_ftp_ip"
+            android:persistent="true"
+            android:summary="@string/pref_ftp_ip_summary"
+            android:title="@string/pref_ftp_ip_title" />
+
+        <com.pluscubed.logcat.widget.NonnegativeIntegerEditTextPreference
+            android:defaultValue="@string/pref_ftp_port_default"
+            android:key="@string/pref_ftp_port"
+            android:persistent="true"
+            android:summary="@string/pref_ftp_port_summary"
+            android:title="@string/pref_ftp_port_title" />
+
+        <com.pluscubed.logcat.widget.NonnegativeIntegerEditTextPreference
+            android:defaultValue="@string/pref_ftp_username_default"
+            android:key="@string/pref_ftp_username"
+            android:persistent="true"
+            android:summary="@string/pref_ftp_username_summary"
+            android:title="@string/pref_ftp_username_title" />
+
+        <com.pluscubed.logcat.widget.NonnegativeIntegerEditTextPreference
+            android:defaultValue="@string/pref_ftp_password_default"
+            android:key="@string/pref_ftp_password"
+            android:persistent="true"
+            android:summary="@string/pref_ftp_password_summary"
+            android:title="@string/pref_ftp_password_title" />
+
+        <com.pluscubed.logcat.widget.NonnegativeIntegerEditTextPreference
             android:defaultValue="@string/pref_log_line_period_default"
             android:key="@string/pref_log_line_period"
             android:persistent="true"
