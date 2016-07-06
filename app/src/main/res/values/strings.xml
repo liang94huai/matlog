@@ -28,7 +28,7 @@
     <string name="pref_buffer_choice_radio_value">radio</string>
     <string name="pref_default_log_level">default_level</string>
     <string name="pref_display_limit">display_limit</string>
-    <string name="pref_display_limit_default">10000</string>
+    <string name="pref_display_limit_default">100000</string>
     <string name="pref_expanded_by_default">expand_default</string>
     <string name="pref_hide_partial_select_help">pref_hide_partial_select_help</string>
     <string name="pref_include_device_info">device_info</string>
