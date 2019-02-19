@@ -35,11 +35,11 @@
     <string name="pref_log_line_period">log_line_period</string>
     <string name="pref_log_line_period_default">200</string>
     <string name="pref_ftp_ip">ftp_ip</string>
-    <string name="pref_ftp_ip_default">192.168.70.66</string>
+    <string name="pref_ftp_ip_default">192.168.70.19</string>
     <string name="pref_ftp_port">ftp_port</string>
     <string name="pref_ftp_port_default">21</string>
     <string name="pref_ftp_username">ftp_username</string>
-    <string name="pref_ftp_username_default">test</string>
+    <string name="pref_ftp_username_default">ftpuser</string>
     <string name="pref_ftp_password">ftp_password</string>
     <string name="pref_ftp_password_default">123456</string>
     <string name="pref_ran_jellybean_su_update">jellybean_su</string>

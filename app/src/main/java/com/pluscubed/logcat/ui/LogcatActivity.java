@@ -1293,7 +1293,7 @@ public class LogcatActivity extends AppCompatActivity implements FilterListener 
                 try {
                     client.connect(PreferenceHelper.getFtpIpPreference(getApplicationContext()), PreferenceHelper.getFtpPortPreference(getApplicationContext()));
                     client.login(PreferenceHelper.getFtpUsernamePreference(getApplicationContext()), PreferenceHelper.getFtpPasswordPreference(getApplicationContext()));
-                    client.changeDirectory("/AndroidLog");
+                    client.changeDirectory("/home/public/public/AndroidLog");
 
                     SendLogDetails sendLogDetails = getSendLogDetails(true, false);
                     try {
